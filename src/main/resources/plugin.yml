@@ -3,7 +3,7 @@ version: @version@
 description: Chat channels and more provided to you by MCProHosting!
 authors: [MCProHosting]
 
-main: com.mcprohosting.plugins.chipchat
+main: com.mcprohosting.plugins.chipchat.ChipChat
 database: false
 
 commands:
