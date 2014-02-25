@@ -1,0 +1,10 @@
+name: ChipChat
+version: @version@
+description: Chat channels and more provided to you by MCProHosting!
+authors: [MCProHosting]
+
+main: com.mcprohosting.plugins.chipchat
+database: false
+
+commands:
+permissions:

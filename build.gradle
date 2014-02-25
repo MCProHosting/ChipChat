@@ -1,0 +1,26 @@
+import org.apache.tools.ant.filters.*
+
+apply plugin: 'java'
+apply plugin: 'maven'
+
+group = "com.mcprohosting"
+version = "0.0.1"
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+    maven {
+        name = "spigotmc-snapshots"
+        url = "http://repo.md-5.net/content/repositories/snapshots"
+    }
+}
+
+dependencies {
+    compile group: 'org.spigotmc', name: 'spigot', version: '1.7.2-R0.4-SNAPSHOT'
+}
+
+processResources {
+    filter(ReplaceTokens, tokens: [
+            "version":project.version
+    ])
+}
