@@ -1,8 +1,10 @@
 package com.mcprohosting.plugins.chipchat;
 
-import com.mcprohosting.plugins.chipchat.api.command.CommandHandler;
+import com.mcprohosting.plugins.chipchat.listeners.PlayerListener;
+import com.mcprohosting.plugins.chipchat.utils.command.CommandHandler;
 import com.mcprohosting.plugins.chipchat.commands.Channel;
 import com.mcprohosting.plugins.chipchat.configuration.Config;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -12,13 +14,16 @@ public class ChipChat extends JavaPlugin {
     private static ChipChat plugin;
     private static Config config;
     private static CommandHandler commandHandler;
+    private ChatterManager chatterManager;
 
     public void onEnable() {
         plugin = this;
         config = new Config(this);
         commandHandler = new CommandHandler(this);
+        chatterManager = new ChatterManager();
 
         registerCommands();
+        registerListeners();
     }
 
     public void onDisable() {}
@@ -33,6 +38,14 @@ public class ChipChat extends JavaPlugin {
 
     private void registerCommands() {
         commandHandler.registerCommands(new Channel(this));
+    }
+
+    private void registerListeners() {
+        Bukkit.getPluginManager().registerEvents(new PlayerListener(), this);
+    }
+
+    public ChatterManager getChatterManager() {
+        return chatterManager;
     }
 
 }

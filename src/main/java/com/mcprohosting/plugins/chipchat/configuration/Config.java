@@ -1,6 +1,6 @@
 package com.mcprohosting.plugins.chipchat.configuration;
 
-import com.mcprohosting.plugins.chipchat.api.configuration.ConfigModel;
+import com.mcprohosting.plugins.chipchat.utils.configuration.ConfigModel;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.plugin.Plugin;
 

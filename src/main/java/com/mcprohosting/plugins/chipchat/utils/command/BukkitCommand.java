@@ -1,4 +1,4 @@
-package com.mcprohosting.plugins.chipchat.api.command;
+package com.mcprohosting.plugins.chipchat.utils.command;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.command.CommandException;

@@ -1,4 +1,4 @@
-package com.mcprohosting.plugins.chipchat.api.configuration;
+package com.mcprohosting.plugins.chipchat.utils.configuration;
 
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;

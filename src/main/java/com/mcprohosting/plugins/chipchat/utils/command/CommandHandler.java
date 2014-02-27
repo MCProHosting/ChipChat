@@ -1,8 +1,7 @@
-package com.mcprohosting.plugins.chipchat.api.command;
+package com.mcprohosting.plugins.chipchat.utils.command;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Color;
 import org.bukkit.command.*;
 import org.bukkit.help.GenericCommandHelpTopic;
 import org.bukkit.help.HelpTopic;

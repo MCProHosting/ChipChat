@@ -1,4 +1,4 @@
-package com.mcprohosting.plugins.chipchat.api.command;
+package com.mcprohosting.plugins.chipchat.utils.command;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

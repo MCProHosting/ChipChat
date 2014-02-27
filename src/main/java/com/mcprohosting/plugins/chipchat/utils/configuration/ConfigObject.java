@@ -1,4 +1,4 @@
-package com.mcprohosting.plugins.chipchat.api.configuration;
+package com.mcprohosting.plugins.chipchat.utils.configuration;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
