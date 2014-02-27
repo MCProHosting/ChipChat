@@ -19,7 +19,7 @@ public class ChatterManager {
 
     public void loadChatter(String name) {
         ChatterConfig config = new ChatterConfig(name);
-        Chatter chatter = new Chatter(name, config, config.getChatter());
+        Chatter chatter = new Chatter(name, config);
         registerChatter(name, chatter);
     }
 

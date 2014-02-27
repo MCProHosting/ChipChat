@@ -9,10 +9,10 @@ public class Chatter {
     private ChatterConfig config;
     private ChatterData data;
 
-    public Chatter(String name, ChatterConfig config, ChatterData data) {
+    public Chatter(String name, ChatterConfig config) {
         this.name = name;
         this.config = config;
-        this.data = data;
+        this.data = config.getChatterData();
     }
 
     public String getName() {

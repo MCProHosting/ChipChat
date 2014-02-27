@@ -26,7 +26,7 @@ public class ChatterConfig extends ConfigModel {
         }
     }
 
-    public ChatterData getChatter() {
+    public ChatterData getChatterData() {
         return chatter;
     }
 

@@ -3,20 +3,16 @@ package com.mcprohosting.plugins.chipchat;
 import com.mcprohosting.plugins.chipchat.configuration.ChannelConfig;
 import com.mcprohosting.plugins.chipchat.configuration.models.ChannelData;
 
-public class Channel extends ChannelData {
+public class Channel {
 
+    private String name;
     private ChannelConfig config;
+    private ChannelData data;
 
-    public Channel() {
-        super();
-    }
-
-    public Channel(String name) {
-        super(name);
-    }
-
-    public Channel(String name, String password) {
-        super(name, password);
+    public Channel(String name, ChannelConfig config) {
+        this.name = name;
+        this.config = config;
+        this.data = config.getChannelData();
     }
 
     public String getName() {
@@ -28,23 +24,23 @@ public class Channel extends ChannelData {
     }
 
     public String getPassword() {
-        return this.password;
+        return this.data.password;
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.data.password = password;
     }
 
     public void addChatter(String chatter) {
-        this.chatters.add(chatter);
+        this.data.chatters.add(chatter);
     }
 
     public void removeChatter(String chatter) {
-        this.chatters.remove(chatter);
+        this.data.chatters.remove(chatter);
     }
 
     public boolean containsUser(String name) {
-        return this.chatters.contains(name);
+        return this.data.chatters.contains(name);
     }
 
     public void setConfig(ChannelConfig config) {
