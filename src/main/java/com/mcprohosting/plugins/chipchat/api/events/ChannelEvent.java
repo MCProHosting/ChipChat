@@ -27,7 +27,7 @@ public class ChannelEvent extends Event implements Cancellable {
     }
 
     public HandlerList getHandlers() {
-        return null;
+        return handlers;
     }
 
     public static HandlerList getHandlerList() {

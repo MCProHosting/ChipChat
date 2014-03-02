@@ -13,6 +13,14 @@ public class Chatter {
         this.name = name;
         this.config = config;
         this.data = config.getChatterData();
+
+        for (String ch : data.joined) {
+            Channel channel = ChannelManager.getChannel(ch);
+            if (channel == null) {
+                continue;
+            }
+            channel.addChatter(this);
+        }
     }
 
     public String getName() {
@@ -24,7 +32,7 @@ public class Chatter {
     }
 
     public void setMuted(Channel channel) {
-        if (channel.containsUser(this.getName())) {
+        if (channel.containsUser(this)) {
             this.data.muted.add(channel.getName());
         }
     }
@@ -39,6 +47,10 @@ public class Chatter {
 
     public ChatterConfig getConfig() {
         return config;
+    }
+
+    public Channel getActiveChannel() {
+        return ChannelManager.getDefaultChannel();
     }
 
 }

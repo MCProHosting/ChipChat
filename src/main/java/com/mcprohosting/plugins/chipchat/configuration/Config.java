@@ -9,6 +9,7 @@ import java.io.File;
 public class Config extends ConfigModel {
 
     private static Config config;
+    public String defaultChannel = "Global";
 
     public Config(Plugin plugin) {
         CONFIG_FILE = new File(plugin.getDataFolder(), "config.yml");

@@ -9,7 +9,7 @@ import java.io.File;
 
 public class ChatterConfig extends ConfigModel {
 
-    public ChatterData chatter;
+    public ChatterData chatter = new ChatterData();
 
     public ChatterConfig(String name) {
         CONFIG_FILE = new File(ChatterManager.CHATTER_DIRECTORY, name.substring(0, 1).toUpperCase() + File.separator + name + ".yml");

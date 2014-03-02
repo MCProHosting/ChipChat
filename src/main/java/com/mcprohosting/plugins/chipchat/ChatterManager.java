@@ -11,38 +11,45 @@ public class ChatterManager {
 
     public static final File CHATTER_DIRECTORY = new File(ChipChat.getPlugin().getDataFolder(), "chatters");
 
-    public Map<String, Chatter> registeredChatters;
+    public static Map<String, Chatter> registeredChatters;
 
     public ChatterManager() {
         registeredChatters = new HashMap<String, Chatter>();
     }
 
-    public void loadChatter(String name) {
+    public static void loadChatter(String name) {
         ChatterConfig config = new ChatterConfig(name);
         Chatter chatter = new Chatter(name, config);
+
+        save(chatter);
+
         registerChatter(name, chatter);
     }
 
-    public void unloadChatter(String name) {
+    public static void unloadChatter(String name) {
         deregisterChatter(name);
     }
 
-    private void registerChatter(String name, Chatter chatter) {
+    private static void registerChatter(String name, Chatter chatter) {
         registeredChatters.put(name, chatter);
     }
 
-    private void deregisterChatter(String name) {
+    private static void deregisterChatter(String name) {
+        Chatter chatter = registeredChatters.get(name);
+        save(chatter);
+        registeredChatters.remove(name);
+    }
+
+    private static void save(Chatter chatter) {
         try {
-            Chatter chatter = registeredChatters.get(name);
-            save(chatter);
-            registeredChatters.remove(name);
+            chatter.getConfig().save();
         } catch (InvalidConfigurationException e) {
-            e.printStackTrace();
+            //
         }
     }
 
-    private void save(Chatter chatter) throws InvalidConfigurationException {
-        chatter.getConfig().save();
+    public static Chatter getChatter(String name) {
+        return registeredChatters.get(name);
     }
 
 }
