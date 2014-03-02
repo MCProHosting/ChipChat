@@ -13,7 +13,7 @@ public class ChannelConfig extends ConfigModel {
 
     public ChannelConfig(String name) {
         CONFIG_FILE = new File(ChannelManager.CHANNEL_DIRECTORY, name.substring(0, 1).toUpperCase() + File.separator + name + ".yml");
-        CONFIG_HEADER = "Channel Config File";
+        CONFIG_HEADER = "ChannelCommand Config File";
 
         try {
             this.init();
@@ -28,7 +28,7 @@ public class ChannelConfig extends ConfigModel {
 
     public ChannelConfig(File file) {
         CONFIG_FILE = file;
-        CONFIG_HEADER = "Channel Config File";
+        CONFIG_HEADER = "ChannelCommand Config File";
 
         try {
             this.init();

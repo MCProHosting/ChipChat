@@ -7,4 +7,5 @@ main: com.mcprohosting.plugins.chipchat.ChipChat
 database: false
 
 commands:
+  channel:
 permissions:

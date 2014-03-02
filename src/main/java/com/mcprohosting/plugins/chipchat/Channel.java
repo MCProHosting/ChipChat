@@ -39,6 +39,14 @@ public class Channel {
         this.data.password = password;
     }
 
+    public boolean canJoin(String password) {
+        if (getPassword().equals(password) == true) {
+            return true;
+        }
+
+        return false;
+    }
+
     public void addChatter(Chatter chatter) {
         chatters.add(chatter);
     }
@@ -60,6 +68,11 @@ public class Channel {
     }
 
     public void handleMessageEvent(ChannelMessageEvent event) {
+        if (data.permission.equals("") == false && ChipChat.getPerms().has(event.getPlayer(), data.permission) == false) {
+            event.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYou do not have permission to talk in this channel!"));
+            return;
+        }
+
         for (Chatter chatter : chatters) {
             Player player = Bukkit.getPlayer(chatter.getName());
             if (player != null) {

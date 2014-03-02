@@ -36,6 +36,7 @@ public class ChatterManager {
 
     private static void deregisterChatter(String name) {
         Chatter chatter = registeredChatters.get(name);
+        chatter.logout();
         save(chatter);
         registeredChatters.remove(name);
     }

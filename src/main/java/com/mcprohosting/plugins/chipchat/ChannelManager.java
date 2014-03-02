@@ -36,9 +36,9 @@ public class ChannelManager {
         }
     }
 
-    public static void loadChannel(String name, boolean skipDefault) {
+    public static Channel loadChannel(String name, boolean skipDefault) {
         if (name.equals(Config.getConfig().defaultChannel) && skipDefault) {
-            return;
+            return null;
         }
 
         ChannelConfig config = new ChannelConfig(name);
@@ -47,22 +47,28 @@ public class ChannelManager {
         save(channel);
 
         registerChannel(name, channel);
+
+        return channel;
     }
 
-    public static void unloadChannel(String name) {
-        if (registeredChannels.containsKey(name)) {
-            deregisterChannel(name);
+    public static void unloadChannel(String name, boolean delete) {
+        if (registeredChannels.containsKey(name.toLowerCase())) {
+            deregisterChannel(name.toLowerCase());
+        }
+
+        if (delete) {
+            deleteChannel(name);
         }
     }
 
     private static void registerChannel(String name, Channel channel) {
-        registeredChannels.put(name, channel);
+        registeredChannels.put(name.toLowerCase(), channel);
     }
 
     private static void deregisterChannel(String name) {
-        Channel channel = registeredChannels.get(name);
+        Channel channel = registeredChannels.get(name.toLowerCase());
         save(channel);
-        registeredChannels.remove(name);
+        registeredChannels.remove(name.toLowerCase());
     }
 
     public static boolean deleteChannel(String name) {
@@ -92,11 +98,15 @@ public class ChannelManager {
     }
 
     public static Channel getChannel(String name) {
-        return registeredChannels.get(name);
+        return registeredChannels.get(name.toLowerCase());
     }
 
     public static Channel getDefaultChannel() {
         return registeredChannels.get(Config.getConfig().defaultChannel);
+    }
+
+    public static boolean channelExists(String name) {
+        return registeredChannels.containsKey(name.toLowerCase());
     }
 
 }
