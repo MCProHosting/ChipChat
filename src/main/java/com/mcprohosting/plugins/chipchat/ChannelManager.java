@@ -83,7 +83,7 @@ public class ChannelManager {
         return true;
     }
 
-    private static void save(Channel channel) {
+    public static void save(Channel channel) {
         try {
             channel.getConfig().save();
         } catch (InvalidConfigurationException e) {

@@ -41,7 +41,7 @@ public class ChatterManager {
         registeredChatters.remove(name);
     }
 
-    private static void save(Chatter chatter) {
+    public static void save(Chatter chatter) {
         try {
             chatter.getConfig().save();
         } catch (InvalidConfigurationException e) {

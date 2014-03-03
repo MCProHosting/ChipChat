@@ -23,7 +23,7 @@ public class ChannelCommand {
     public void channelCreate(Player player, String[] args) {
         if (args.length >= 1 && args.length <= 2) {
             if (ChannelManager.channelExists(args[0])) {
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "This channel already exists!"));
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cThis channel already exists!"));
                 return;
             }
 
@@ -39,7 +39,7 @@ public class ChannelCommand {
 
                 channel.setOwner(player.getName());
 
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "Channel " + channel.getName() + " has been created!"));
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aChannel " + channel.getName() + " has been created!"));
             } else {
                 ChannelManager.unloadChannel(channel.getName(), true);
             }
@@ -51,13 +51,23 @@ public class ChannelCommand {
             permission = "chipchat.channel.remove",
             permissionMessage = "You do not have permission to use this command!")
     public void channelRemove(Player player, String[] args) {
-        if (args.length >= 1 && args.length <= 2) {
-            if (ChannelManager.channelExists(args[0]) == false) {
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "This channel does not exist!"));
-                return;
+        if (args.length >= 0 && args.length <= 1) {
+
+            Channel channel = null;
+            if (args.length == 1) {
+                channel = ChatterManager.getChatter(player.getName()).getActiveChannel();
+            } else {
+                if (ChannelManager.channelExists(args[0]) == false) {
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cThis channel does not exist!"));
+                    return;
+                }
+
+                channel = ChannelManager.getChannel(args[0]);
             }
 
-            Channel channel = ChannelManager.getChannel(args[0]);
+            if (channel == null) {
+                return;
+            }
 
             if (channel.isOwner(player.getName()) == false) {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYou are not the owner of this channel!"));
@@ -68,7 +78,7 @@ public class ChannelCommand {
             Bukkit.getPluginManager().callEvent(event);
 
             if (event.isCancelled() == false) {
-                ChannelManager.unloadChannel(channel.getName(), true);
+                channel.delete();
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aChannel " + channel.getName() + " has been deleted!"));
             }
         }

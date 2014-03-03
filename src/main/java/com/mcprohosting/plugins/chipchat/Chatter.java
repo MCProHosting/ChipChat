@@ -69,4 +69,8 @@ public class Chatter {
         }
     }
 
+    public void leaveChannel(String channel) {
+        data.joined.remove(channel);
+    }
+
 }

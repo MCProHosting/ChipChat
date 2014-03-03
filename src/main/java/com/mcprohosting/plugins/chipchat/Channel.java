@@ -2,6 +2,7 @@ package com.mcprohosting.plugins.chipchat;
 
 import com.mcprohosting.plugins.chipchat.api.events.ChannelMessageEvent;
 import com.mcprohosting.plugins.chipchat.configuration.ChannelConfig;
+import com.mcprohosting.plugins.chipchat.configuration.Config;
 import com.mcprohosting.plugins.chipchat.configuration.models.ChannelData;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -149,6 +150,17 @@ public class Channel {
         }
 
         return false;
+    }
+
+    public void delete() {
+        for (Chatter chatter : chatters.values()) {
+            chatter.setActiveChannel(Config.getConfig().defaultChannel);
+            chatter.leaveChannel(this.name);
+
+            ChatterManager.save(chatter);
+        }
+
+        ChannelManager.unloadChannel(name, true);
     }
 
 }
