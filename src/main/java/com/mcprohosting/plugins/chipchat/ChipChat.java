@@ -36,6 +36,7 @@ public class ChipChat extends JavaPlugin {
 
     public void onDisable() {
         ChannelManager.saveAll();
+        ChatterManager.saveAll();
     }
 
     public static ChipChat getPlugin() {

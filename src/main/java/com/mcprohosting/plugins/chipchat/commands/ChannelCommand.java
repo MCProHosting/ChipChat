@@ -30,17 +30,23 @@ public class ChannelCommand {
                 channel.setPassword(args[1]);
             }
 
+            channel.setOwner(player.getName());
+
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', "Channel " + channel.getName() + " has been created!"));
         }
     }
 
+    @CommandHandler(name = "ch",
+                    permission = "chipchat.channel.switch",
+                    permissionMessage = "You do not have permission to use this command!")
     @SubCommandHandler(parent = "channel",
                       name = "switch",
                       permission = "chipchat.channel.switch",
                       permissionMessage = "You do not have permission to use this command!")
     public void channelSwitch(Player player, String[] args) {
         if (args.length >= 1 && args.length <= 2) {
-            if (ChannelManager.channelExists(args[0])) {
+            player.sendMessage(args[0]);
+            if (ChannelManager.channelExists(args[0]) == false) {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cThat channel does not exists!"));
                 return;
             }
@@ -76,6 +82,66 @@ public class ChannelCommand {
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aYou have joined " + channel.getName()));
         } else {
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYou must specify a channel!"));
+        }
+    }
+
+    @SubCommandHandler(parent = "channel",
+                      name = "mute",
+                      permission = "chipchat.channel.mute",
+                      permissionMessage = "You do not have permission to use this command!")
+    public void channelMute(Player player, String[] args) {
+        Chatter chatter = ChatterManager.getChatter(player.getName());
+        if (chatter == null) {
+            return;
+        }
+
+        Channel channel = chatter.getActiveChannel();
+        if (channel != null) {
+            if (!(channel.isMod(chatter.getName()) || channel.isOwner(chatter.getName()) || player.isOp())) {
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYou are not a mod or owner of this channel!"));
+                return;
+            }
+        }
+
+        if (args.length != 1) {
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYou must specify a player to mute!"));
+            return;
+        }
+
+        if (channel.addMuted(args[0])) {
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&a" + args[0] + " has been muted!"));
+        } else {
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c" + args[0] + " is already muted!"));
+        }
+    }
+
+    @SubCommandHandler(parent = "channel",
+            name = "unmute",
+            permission = "chipchat.channel.unmute",
+            permissionMessage = "You do not have permission to use this command!")
+    public void channelUnmute(Player player, String[] args) {
+        Chatter chatter = ChatterManager.getChatter(player.getName());
+        if (chatter == null) {
+            return;
+        }
+
+        Channel channel = chatter.getActiveChannel();
+        if (channel != null) {
+            if (!(channel.isMod(chatter.getName()) || channel.isOwner(chatter.getName()) || player.isOp())) {
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYou are not a mod or owner of this channel!"));
+                return;
+            }
+        }
+
+        if (args.length != 1) {
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYou must specify a player to unmute!"));
+            return;
+        }
+
+        if (channel.removeMuted(args[0])) {
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&a" + args[0] + " has been unmuted!"));
+        } else {
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c" + args[0] + " is not muted!"));
         }
     }
 

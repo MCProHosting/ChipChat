@@ -49,6 +49,12 @@ public class ChatterManager {
         }
     }
 
+    public static void saveAll() {
+        for (Chatter chatter : registeredChatters.values()) {
+            save(chatter);
+        }
+    }
+
     public static Chatter getChatter(String name) {
         return registeredChatters.get(name);
     }

@@ -37,16 +37,6 @@ public class Chatter {
         // TODO Global Mute
     }
 
-    public void setMuted(Channel channel) {
-        if (channel.containsUser(this)) {
-            this.data.muted.add(channel.getName());
-        }
-    }
-
-    public boolean isMuted(Channel channel) {
-        return this.data.muted.contains(channel.getName());
-    }
-
     public boolean isMuted() {
         return this.data.mutedGlobally;
     }

@@ -12,7 +12,6 @@ public class ChatterData extends ConfigObject {
     public ArrayList<String> joined = new ArrayList<String>(){{
         add(Config.getConfig().defaultChannel);
     }};
-    public ArrayList<String> muted = new ArrayList<>();
     public boolean mutedGlobally = false;
 
     public ChatterData() {}

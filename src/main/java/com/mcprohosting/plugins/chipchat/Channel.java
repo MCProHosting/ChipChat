@@ -7,20 +7,21 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Channel {
 
     private String name;
     private ChannelConfig config;
     private ChannelData data;
-    private ArrayList<Chatter> chatters;
+    private Map<String, Chatter> chatters;
 
     public Channel(String name, ChannelConfig config) {
         this.name = name;
         this.config = config;
         this.data = config.getChannelData();
-        this.chatters = new ArrayList<Chatter>();
+        this.chatters = new HashMap<String, Chatter>();
     }
 
     public String getName() {
@@ -48,15 +49,15 @@ public class Channel {
     }
 
     public void addChatter(Chatter chatter) {
-        chatters.add(chatter);
+        chatters.put(chatter.getName().toLowerCase(), chatter);
     }
 
     public void removeChatter(Chatter chatter) {
-        chatters.remove(chatter);
+        chatters.remove(chatter.getName().toLowerCase());
     }
 
-    public boolean containsUser(Chatter name) {
-        return chatters.contains(name);
+    public boolean containsUser(Chatter chatter) {
+        return chatters.containsKey(chatter.getName().toLowerCase());
     }
 
     public void setConfig(ChannelConfig config) {
@@ -73,7 +74,12 @@ public class Channel {
             return;
         }
 
-        for (Chatter chatter : chatters) {
+        if (data.muted.contains(event.getPlayer().getName())) {
+            event.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYou are muted and cannot speak in this channel!"));
+            return;
+        }
+
+        for (Chatter chatter : chatters.values()) {
             Player player = Bukkit.getPlayer(chatter.getName());
             if (player != null) {
                 player.sendMessage(getFormattedMessage(event));
@@ -89,9 +95,60 @@ public class Channel {
         message = message.replace("%m%", event.getMessage());
         message = ChatColor.translateAlternateColorCodes('&', message);
 
-        event.getPlayer().sendMessage("Formatted message!");
-
         return message;
+    }
+
+    public boolean setOwner(String name) {
+        if (data.owner.equals(name) == false) {
+            data.owner = name;
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean isOwner(String name) {
+        return data.owner.equals(name);
+    }
+
+    public boolean addMod(String name) {
+        if (data.mods.contains(name) == false) {
+            data.mods.add(name);
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean removeMod(String name) {
+        if (data.mods.contains(name)) {
+            data.mods.remove(name);
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean isMod(String name) {
+        return data.mods.contains(name);
+    }
+
+    public boolean addMuted(String name) {
+        if (data.muted.contains(name) == false) {
+            data.muted.add(name);
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean removeMuted(String name) {
+        if (data.muted.contains(name)) {
+            data.muted.remove(name);
+            return true;
+        }
+
+        return false;
     }
 
 }

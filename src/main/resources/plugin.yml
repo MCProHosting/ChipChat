@@ -8,4 +8,5 @@ database: false
 
 commands:
   channel:
+  ch:
 permissions:
