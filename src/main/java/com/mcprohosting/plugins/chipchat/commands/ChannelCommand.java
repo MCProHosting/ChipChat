@@ -101,6 +101,8 @@ public class ChannelCommand {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYou are not a mod or owner of this channel!"));
                 return;
             }
+        } else {
+            return;
         }
 
         if (args.length != 1) {
@@ -131,6 +133,8 @@ public class ChannelCommand {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYou are not a mod or owner of this channel!"));
                 return;
             }
+        } else {
+            return;
         }
 
         if (args.length != 1) {
@@ -142,6 +146,70 @@ public class ChannelCommand {
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&a" + args[0] + " has been unmuted!"));
         } else {
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c" + args[0] + " is not muted!"));
+        }
+    }
+
+    @SubCommandHandler(parent = "channel",
+            name = "addmod",
+            permission = "chipchat.channel.addmod",
+            permissionMessage = "You do not have permission to use this command!")
+    public void addMod(Player player, String[] args) {
+        Chatter chatter = ChatterManager.getChatter(player.getName());
+        if (chatter == null) {
+            return;
+        }
+
+        Channel channel = chatter.getActiveChannel();
+        if (channel != null) {
+            if (!(channel.isOwner(chatter.getName()) || player.isOp())) {
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYou are not the owner of this channel!"));
+                return;
+            }
+        } else {
+            return;
+        }
+
+        if (args.length != 1) {
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYou must specify a player to make a mod!"));
+            return;
+        }
+
+        if (channel.addMod(args[0])) {
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&a" + args[0] + " has been made a mod in " + channel.getName() + "!"));
+        } else {
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c" + args[0] + " is already a mod in " + channel.getName() + "!"));
+        }
+    }
+
+    @SubCommandHandler(parent = "channel",
+            name = "removemod",
+            permission = "chipchat.channel.removemod",
+            permissionMessage = "You do not have permission to use this command!")
+    public void removeMod(Player player, String[] args) {
+        Chatter chatter = ChatterManager.getChatter(player.getName());
+        if (chatter == null) {
+            return;
+        }
+
+        Channel channel = chatter.getActiveChannel();
+        if (channel != null) {
+            if (!(channel.isOwner(chatter.getName()) || player.isOp())) {
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYou are not the owner of this channel!"));
+                return;
+            }
+        } else {
+            return;
+        }
+
+        if (args.length != 1) {
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYou must specify a player to remove as mod!"));
+            return;
+        }
+
+        if (channel.removeMod(args[0])) {
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&a" + args[0] + " has been removed as mod in " + channel.getName() + "!"));
+        } else {
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c" + args[0] + " is not a mod in " + channel.getName() + "!"));
         }
     }
 
