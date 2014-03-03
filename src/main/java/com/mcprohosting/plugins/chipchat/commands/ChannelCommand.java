@@ -2,6 +2,7 @@ package com.mcprohosting.plugins.chipchat.commands;
 
 import com.mcprohosting.plugins.chipchat.*;
 import com.mcprohosting.plugins.chipchat.api.events.ChannelCreateEvent;
+import com.mcprohosting.plugins.chipchat.api.events.ChannelDeleteEvent;
 import com.mcprohosting.plugins.chipchat.utils.command.CommandController.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -41,6 +42,34 @@ public class ChannelCommand {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "Channel " + channel.getName() + " has been created!"));
             } else {
                 ChannelManager.unloadChannel(channel.getName(), true);
+            }
+        }
+    }
+
+    @SubCommandHandler(parent = "channel",
+            name = "remove",
+            permission = "chipchat.channel.remove",
+            permissionMessage = "You do not have permission to use this command!")
+    public void channelRemove(Player player, String[] args) {
+        if (args.length >= 1 && args.length <= 2) {
+            if (ChannelManager.channelExists(args[0]) == false) {
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "This channel does not exist!"));
+                return;
+            }
+
+            Channel channel = ChannelManager.getChannel(args[0]);
+
+            if (channel.isOwner(player.getName()) == false) {
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYou are not the owner of this channel!"));
+                return;
+            }
+
+            ChannelDeleteEvent event = new ChannelDeleteEvent(player, channel);
+            Bukkit.getPluginManager().callEvent(event);
+
+            if (event.isCancelled() == false) {
+                ChannelManager.unloadChannel(channel.getName(), true);
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aChannel " + channel.getName() + " has been deleted!"));
             }
         }
     }
