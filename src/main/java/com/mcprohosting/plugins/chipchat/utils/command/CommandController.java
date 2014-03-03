@@ -4,6 +4,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.reflect.Method;
 import java.util.HashMap;
+
+import com.mcprohosting.plugins.chipchat.ChipChat;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -173,7 +175,7 @@ public class CommandController implements CommandExecutor{
                     /*
                      * If a permission is attached to this subcommand and the sender doens't have it, don't continue
                      */
-                    if(!subCommand.permission.isEmpty() && !sender.hasPermission(subCommand.permission)){
+                    if(!subCommand.permission.isEmpty() && !ChipChat.getPerms().has(sender, subCommand.permission)){
                         sender.sendMessage(ChatColor.RED + subCommand.permissionMessage);
                         return true;
                     }
