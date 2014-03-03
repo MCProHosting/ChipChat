@@ -3,6 +3,7 @@ package com.mcprohosting.plugins.chipchat.commands;
 import com.mcprohosting.plugins.chipchat.*;
 import com.mcprohosting.plugins.chipchat.api.events.ChannelCreateEvent;
 import com.mcprohosting.plugins.chipchat.api.events.ChannelDeleteEvent;
+import com.mcprohosting.plugins.chipchat.configuration.Config;
 import com.mcprohosting.plugins.chipchat.utils.command.CommandController.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -66,6 +67,11 @@ public class ChannelCommand {
             }
 
             if (channel == null) {
+                return;
+            }
+
+            if (channel.getName().equalsIgnoreCase(Config.getConfig().defaultChannel)) {
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYou cannot delete the default channel!"));
                 return;
             }
 
