@@ -1,7 +1,9 @@
 package com.mcprohosting.plugins.chipchat.commands;
 
 import com.mcprohosting.plugins.chipchat.*;
+import com.mcprohosting.plugins.chipchat.api.events.ChannelCreateEvent;
 import com.mcprohosting.plugins.chipchat.utils.command.CommandController.*;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -26,13 +28,20 @@ public class ChannelCommand {
 
             Channel channel = ChannelManager.loadChannel(args[0], false);
 
-            if (args.length == 2) {
-                channel.setPassword(args[1]);
+            ChannelCreateEvent event = new ChannelCreateEvent(player, channel);
+            Bukkit.getPluginManager().callEvent(event);
+
+            if (event.isCancelled() == false) {
+                if (args.length == 2) {
+                    channel.setPassword(args[1]);
+                }
+
+                channel.setOwner(player.getName());
+
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "Channel " + channel.getName() + " has been created!"));
+            } else {
+                ChannelManager.unloadChannel(channel.getName(), true);
             }
-
-            channel.setOwner(player.getName());
-
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', "Channel " + channel.getName() + " has been created!"));
         }
     }
 
