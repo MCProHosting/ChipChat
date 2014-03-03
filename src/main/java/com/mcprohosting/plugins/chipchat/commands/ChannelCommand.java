@@ -55,7 +55,7 @@ public class ChannelCommand {
         if (args.length >= 0 && args.length <= 1) {
 
             Channel channel = null;
-            if (args.length == 1) {
+            if (args.length == 0) {
                 channel = ChatterManager.getChatter(player.getName()).getActiveChannel();
             } else {
                 if (ChannelManager.channelExists(args[0]) == false) {
@@ -75,7 +75,7 @@ public class ChannelCommand {
                 return;
             }
 
-            if (channel.isOwner(player.getName()) == false) {
+            if (!(channel.isOwner(player.getName()) || player.isOp())) {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYou are not the owner of this channel!"));
                 return;
             }
@@ -99,7 +99,6 @@ public class ChannelCommand {
                       permissionMessage = "You do not have permission to use this command!")
     public void channelSwitch(Player player, String[] args) {
         if (args.length >= 1 && args.length <= 2) {
-            player.sendMessage(args[0]);
             if (ChannelManager.channelExists(args[0]) == false) {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cThat channel does not exists!"));
                 return;
