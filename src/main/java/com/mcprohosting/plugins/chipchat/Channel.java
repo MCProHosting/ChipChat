@@ -100,8 +100,8 @@ public class Channel {
     }
 
     public boolean setOwner(String name) {
-        if (data.owner.equals(name) == false) {
-            data.owner = name;
+        if (data.owner.equals(name.toLowerCase()) == false) {
+            data.owner = name.toLowerCase();
             return true;
         }
 
@@ -113,8 +113,8 @@ public class Channel {
     }
 
     public boolean addMod(String name) {
-        if (data.mods.contains(name) == false) {
-            data.mods.add(name);
+        if (data.mods.contains(name.toLowerCase()) == false) {
+            data.mods.add(name.toLowerCase());
             return true;
         }
 
@@ -122,8 +122,8 @@ public class Channel {
     }
 
     public boolean removeMod(String name) {
-        if (data.mods.contains(name)) {
-            data.mods.remove(name);
+        if (data.mods.contains(name.toLowerCase())) {
+            data.mods.remove(name.toLowerCase());
             return true;
         }
 
@@ -136,7 +136,7 @@ public class Channel {
 
     public boolean addMuted(String name) {
         if (data.muted.contains(name) == false) {
-            data.muted.add(name);
+            data.muted.add(name.toLowerCase());
             return true;
         }
 
@@ -144,8 +144,8 @@ public class Channel {
     }
 
     public boolean removeMuted(String name) {
-        if (data.muted.contains(name)) {
-            data.muted.remove(name);
+        if (data.muted.contains(name.toLowerCase())) {
+            data.muted.remove(name.toLowerCase());
             return true;
         }
 
