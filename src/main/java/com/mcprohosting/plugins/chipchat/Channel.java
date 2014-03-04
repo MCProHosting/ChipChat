@@ -154,10 +154,7 @@ public class Channel {
 
     public void delete() {
         for (Chatter chatter : chatters.values()) {
-            chatter.setActiveChannel(Config.getConfig().defaultChannel);
             chatter.leaveChannel(this.name);
-
-            ChatterManager.save(chatter);
         }
 
         ChannelManager.unloadChannel(name, true);

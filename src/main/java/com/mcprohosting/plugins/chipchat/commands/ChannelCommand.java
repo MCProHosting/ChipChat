@@ -3,6 +3,7 @@ package com.mcprohosting.plugins.chipchat.commands;
 import com.mcprohosting.plugins.chipchat.*;
 import com.mcprohosting.plugins.chipchat.api.events.ChannelCreateEvent;
 import com.mcprohosting.plugins.chipchat.api.events.ChannelDeleteEvent;
+import com.mcprohosting.plugins.chipchat.api.events.ChannelLeaveEvent;
 import com.mcprohosting.plugins.chipchat.configuration.Config;
 import com.mcprohosting.plugins.chipchat.utils.command.CommandController.*;
 import org.bukkit.Bukkit;
@@ -135,6 +136,50 @@ public class ChannelCommand {
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aYou have joined " + channel.getName()));
         } else {
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYou must specify a channel!"));
+        }
+    }
+
+    @SubCommandHandler(parent = "channel",
+            name = "leave",
+            permission = "chipchat.channel.leave",
+            permissionMessage = "You do not have permission to use this command!")
+    public void channelLeave(Player player, String[] args) {
+        if (args.length >= 0 && args.length <= 1) {
+
+            Channel channel = null;
+            if (args.length == 0) {
+                channel = ChatterManager.getChatter(player.getName()).getActiveChannel();
+            } else {
+                if (ChannelManager.channelExists(args[0]) == false) {
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cThis channel does not exist!"));
+                    return;
+                }
+
+                channel = ChannelManager.getChannel(args[0]);
+            }
+
+            if (channel == null) {
+                return;
+            }
+
+            if (channel.getName().equalsIgnoreCase(Config.getConfig().defaultChannel)) {
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYou cannot leave the default channel!"));
+                return;
+            }
+
+            ChannelLeaveEvent event = new ChannelLeaveEvent(player, channel);
+            Bukkit.getPluginManager().callEvent(event);
+
+            if (event.isCancelled() == false) {
+                Chatter chatter = ChatterManager.getChatter(player.getName());
+
+                if (chatter == null) {
+                    return;
+                }
+
+                chatter.leaveChannel(channel.getName());
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aYou have left the channel " + channel.getName()));
+            }
         }
     }
 

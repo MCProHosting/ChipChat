@@ -70,7 +70,13 @@ public class Chatter {
     }
 
     public void leaveChannel(String channel) {
+        if (data.activeChannel.equalsIgnoreCase(channel)) {
+            data.activeChannel = Config.getConfig().defaultChannel;
+        }
+
         data.joined.remove(channel);
+
+        ChatterManager.save(this);
     }
 
 }
