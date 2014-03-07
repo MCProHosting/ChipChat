@@ -1,7 +1,22 @@
 import org.apache.tools.ant.filters.*
 
 apply plugin: 'java'
+apply plugin: 'rebel'
 apply plugin: 'maven'
+
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            name = "zt-public-snapshots"
+            url = "http://repos.zeroturnaround.com/nexus/content/groups/zt-public/"
+        }
+    }
+
+    dependencies {
+        classpath group: 'org.zeroturnaround', name: 'gradle-jrebel-plugin', version: '1.1.2'
+    }
+}
 
 group = "com.mcprohosting"
 version = "0.0.9"
